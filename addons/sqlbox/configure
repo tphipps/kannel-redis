@@ -618,6 +618,8 @@ LTLIBOBJS
 rpm_requires
 rpm_suffix
 GW_CONFIG
+JSLIB_INCLUDE
+JSLIB_LFLAGS
 CTLIB_INCLUDE
 CTLIB_LFLAGS
 DOCDRAFTS
@@ -764,6 +766,7 @@ enable_ssl_thread_test
 enable_docs
 enable_drafts
 with_ctlib
+with_jansson
 with_mssql
 with_kannel_dir
 '
@@ -1425,6 +1428,7 @@ Optional Packages:
                           DIR points to the installation /usr/local/ssl
   --with-ctlib=DIR      Include Ct-Lib support.  DIR is the Ct-Lib
                           install directory, defaults to /opt/sybase.
+  --with-jansson=DIR  Include the Jansson JSON library required for Redis support
   --with-mssql=DIR    Include FreeTDS Ct-Lib support.  DIR is the FreeTDS
                           install directory, defaults to /usr/local.
   --with-kannel-dir=DIR    where to look for Kannel Gateway libs and header files
@@ -12960,6 +12964,97 @@ fi
 else
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for Jansson JSON library" >&5
+$as_echo_n "checking for Jansson JSON library... " >&6; }
+
+# Check whether --with-jansson was given.
+if test "${with_jansson+set}" = set; then :
+  withval=$with_jansson;
+    if test "$withval" = "yes"; then
+        withval=/usr/local
+    fi
+
+    if test "$withval" != "no"; then
+        if test -f $withval/include/jansson.h; then
+          JSLIB_INCDIR=$withval/include
+          JSLIB_LIBDIR=$withval/lib
+        else
+            if test -f $withval/src/jansson.h; then
+              JSLIB_INCDIR=$withval/src
+              JSLIB_LIBDIR=$withval/src
+            else
+              { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+              as_fn_error $? "Invalid Jansson directory - unable to find jansson.h" "$LINENO" 5
+            fi
+        fi
+        JSLIB_LDFLAGS="-L$JSLIB_LIBDIR -ljansson"
+        JSLIB_INCLUDE="-I$JSLIB_INCDIR"
+        LDFLAGS="$LDFLAGS $JSLIB_LDFLAGS"
+        CFLAGS="$CFLAGS $JSLIB_INCLUDE"
+
+$as_echo "#define HAVE_JSLIB 1" >>confdefs.h
+
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+        ac_fn_c_check_func "$LINENO" "dlopen" "ac_cv_func_dlopen"
+if test "x$ac_cv_func_dlopen" = xyes; then :
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for dlopen in -ldl" >&5
+$as_echo_n "checking for dlopen in -ldl... " >&6; }
+if ${ac_cv_lib_dl_dlopen+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-ldl  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char dlopen ();
+int
+main ()
+{
+return dlopen ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_dl_dlopen=yes
+else
+  ac_cv_lib_dl_dlopen=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_dl_dlopen" >&5
+$as_echo "$ac_cv_lib_dl_dlopen" >&6; }
+if test "x$ac_cv_lib_dl_dlopen" = xyes; then :
+  JSLIB_LFLAGS="$JSLIB_LFLAGS -ldl"
+fi
+
+fi
+
+     fi
+
+else
+
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 fi

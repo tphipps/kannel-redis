@@ -435,6 +435,42 @@ AC_ARG_WITH(ctlib,
 AC_SUBST(CTLIB_LFLAGS)
 AC_SUBST(CTLIB_INCLUDE)
 
+dnl Checking for Jansson library
+AC_MSG_CHECKING(for Jansson JSON library)
+AC_ARG_WITH(jansson,
+[  --with-jansson[=DIR]  Include the Jansson JSON library required for Redis support],
+[
+    if test "$withval" = "yes"; then
+        withval=/usr/local
+    fi
+  
+    if test "$withval" != "no"; then
+        if test -f $withval/include/jansson.h; then
+          JSLIB_INCDIR=$withval/include
+          JSLIB_LIBDIR=$withval/lib
+        else 
+            if test -f $withval/src/jansson.h; then
+              JSLIB_INCDIR=$withval/src
+              JSLIB_LIBDIR=$withval/src
+            else
+              AC_MSG_RESULT(no)
+              AC_MSG_ERROR(Invalid Jansson directory - unable to find jansson.h)
+            fi
+        fi
+        JSLIB_LDFLAGS="-L$JSLIB_LIBDIR -ljansson"
+        JSLIB_INCLUDE="-I$JSLIB_INCDIR"
+        LDFLAGS="$LDFLAGS $JSLIB_LDFLAGS"
+        CFLAGS="$CFLAGS $JSLIB_INCLUDE"
+        AC_DEFINE(HAVE_JSLIB, 1, [Defined to 1])
+        AC_MSG_RESULT(yes)
+        AC_CHECK_FUNC(dlopen, , AC_CHECK_LIB(dl, dlopen, JSLIB_LFLAGS="$JSLIB_LFLAGS -ldl"))
+     fi
+],[
+     AC_MSG_RESULT(no)
+])
+AC_SUBST(JSLIB_LFLAGS)
+AC_SUBST(JSLIB_INCLUDE)
+
 dnl Checking for FreeTDS ct-lib support
 AC_MSG_CHECKING(for FreeTDS Ct-Lib support)
 AC_ARG_WITH(mssql,

@@ -112,7 +112,7 @@ static void dlr_mem_flush(void)
 /*
  * add struct dlr_entry to list
  */
-static void dlr_mem_add(struct dlr_entry *dlr)
+static void dlr_mem_add(struct dlr_entry *dlr, int use_dst)
 {
     gw_rwlock_wrlock(&rwlock);
     gwlist_append(dlr_waiting_list,dlr);

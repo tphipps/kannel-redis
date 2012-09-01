@@ -97,7 +97,7 @@ void dlr_shutdown(void);
 /* 
  * Add a new entry to the list
  */
-void dlr_add(const Octstr *smsc, const Octstr *ts, Msg *msg);
+void dlr_add(const Octstr *smsc, const Octstr *ts, Msg *msg, int use_dst);
 
 /* 
  * Find an entry in the list. If there is one a message is returned and 

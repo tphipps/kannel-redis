@@ -113,7 +113,7 @@ struct dlr_storage {
      * Add dlr entry into storage.
      * NOTE: this function is responsible to destroy struct dlr_entry
      */
-    void (*dlr_add) (struct dlr_entry *entry);
+    void (*dlr_add) (struct dlr_entry *entry, int use_dst);
     /*
      * Find and return struct dlr_entry. If entry not found return NULL.
      * NOTE: Caller will detroy struct dlr_entry
@@ -171,7 +171,7 @@ struct dlr_storage *dlr_init_sdb(Cfg *cfg);
 struct dlr_storage *dlr_init_oracle(Cfg *cfg);
 struct dlr_storage *dlr_init_pgsql(Cfg *cfg);
 struct dlr_storage *dlr_init_mssql(Cfg *cfg);
-struct dlr_storage *dlr_init_sqlite3(Cfg *cfg);
+struct dlr_storage *dlr_init_redis(Cfg *cfg);
 
 
 #endif /* DLR_P_H */

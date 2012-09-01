@@ -132,7 +132,7 @@ static int gw_sdb_query(char *query,
     return rows;
 }
 
-static void dlr_sdb_add(struct dlr_entry *dlr)
+static void dlr_sdb_add(struct dlr_entry *dlr, int use_dst)
 {
     Octstr *sql;
     int	state;

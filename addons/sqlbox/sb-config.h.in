@@ -16,6 +16,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Defined to 1 */
+#undef HAVE_JSLIB
+
 /* Define to 1 if you have the `gwlib' library (-lgwlib). */
 #undef HAVE_LIBGWLIB
 

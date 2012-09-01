@@ -262,6 +262,8 @@ void dlr_init(Cfg* cfg)
         handles = dlr_init_mssql(cfg);
     } else if (octstr_compare(dlr_type, octstr_imm("sqlite3")) == 0) {
         handles = dlr_init_sqlite3(cfg);
+    } else if (octstr_compare(dlr_type, octstr_imm("redis")) == 0) {
+        handles = dlr_init_redis(cfg);
     }
 
     /*
@@ -317,7 +319,7 @@ const char* dlr_type(void)
 /*
  * Add new dlr entry into dlr storage
  */
-void dlr_add(const Octstr *smsc, const Octstr *ts, Msg *msg)
+void dlr_add(const Octstr *smsc, const Octstr *ts, Msg *msg, int use_dst)
 {
     struct dlr_entry *dlr = NULL;
 
@@ -333,7 +335,7 @@ void dlr_add(const Octstr *smsc, const Octstr *ts, Msg *msg)
         split->orig->sms.foreign_id = octstr_duplicate(ts);
     }
 
-    if(octstr_len(smsc) == 0) {
+    if (octstr_len(smsc) == 0) {
         warning(0, "DLR[%s]: Can't add a dlr without smsc-id", dlr_type());
         return;
     }
@@ -365,7 +367,7 @@ void dlr_add(const Octstr *smsc, const Octstr *ts, Msg *msg)
           octstr_get_cstr(dlr->source), octstr_get_cstr(dlr->destination), dlr->mask, octstr_get_cstr(dlr->boxc_id));
 	
     /* call registered function */
-    handles->dlr_add(dlr);
+    handles->dlr_add(dlr,use_dst);
 }
 
 /*
@@ -475,7 +477,7 @@ void dlr_flush(void)
 }
 
 
-Msg* create_dlr_from_msg(const Octstr *smsc, const Msg *msg, const Octstr *reply, long stat)
+Msg *create_dlr_from_msg(const Octstr *smsc, const Msg *msg, const Octstr *reply, long stat)
 {
     Msg *dlrmsg;
 
@@ -483,8 +485,8 @@ Msg* create_dlr_from_msg(const Octstr *smsc, const Msg *msg, const Octstr *reply
         return NULL;
 
     /* generate DLR */
-    debug("dlr.dlr", 0,"SMSC[%s]: creating DLR message",
-                (smsc ? octstr_get_cstr(smsc) : "UNKNOWN"));
+    debug("dlr.dlr",0,"SMSC[%s]: creating DLR message",
+          (smsc ? octstr_get_cstr(smsc) : "UNKNOWN"));
 
     dlrmsg = msg_create(sms);
     gw_assert(dlrmsg != NULL);
@@ -501,9 +503,9 @@ Msg* create_dlr_from_msg(const Octstr *smsc, const Msg *msg, const Octstr *reply
     dlrmsg->sms.foreign_id = octstr_duplicate(msg->sms.foreign_id);
     time(&dlrmsg->sms.time);
 
-    debug("dlr.dlr", 0,"SMSC[%s]: DLR = %s",
-                (smsc ? octstr_get_cstr(smsc) : "UNKNOWN"),
-                (dlrmsg->sms.dlr_url ? octstr_get_cstr(dlrmsg->sms.dlr_url) : ""));
+    debug("dlr.dlr",0,"SMSC[%s]: DLR = %s",
+          (smsc ? octstr_get_cstr(smsc) : "UNKNOWN"),
+          (dlrmsg->sms.dlr_url ? octstr_get_cstr(dlrmsg->sms.dlr_url) : ""));
 
     return dlrmsg;
 }

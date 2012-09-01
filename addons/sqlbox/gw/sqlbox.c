@@ -93,7 +93,9 @@ static Octstr *global_sender;
 #ifndef HAVE_SQLITE
 #ifndef HAVE_SQLITE3
 #ifndef HAVE_ORACLE
+#ifndef HAVE_REDIS
 #error You need support for at least one DB engine. Please recompile Kannel.
+#endif
 #endif
 #endif
 #endif

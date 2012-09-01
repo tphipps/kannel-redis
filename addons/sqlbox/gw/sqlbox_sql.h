@@ -9,6 +9,7 @@
 #include "sqlbox_sdb.h"
 #include "sqlbox_sqlite.h"
 #include "sqlbox_sqlite3.h"
+#include "sqlbox_redis.h"
 
 struct server_type {
     Octstr *type;

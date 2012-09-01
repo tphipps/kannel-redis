@@ -124,7 +124,7 @@ static void dlr_shutdown_mssql()
     dlr_db_fields_destroy(fields);
 }
 
-static void dlr_add_mssql(struct dlr_entry *entry)
+static void dlr_add_mssql(struct dlr_entry *entry, int use_dst)
 {
     Octstr *sql;
     DBPoolConn *pconn;

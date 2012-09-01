@@ -1,7 +1,7 @@
 #include "gwlib/gwlib.h"
 #ifdef HAVE_MYSQL
 #include "gwlib/dbpool.h"
-#include <mysql/mysql.h>
+#include <mysql.h>
 #define sqlbox_mysql_c
 #include "sqlbox_mysql.h"
 

@@ -609,6 +609,15 @@ MULTI_GROUP(sqlite3-connection,
     OCTSTR(lock-timeout)
 )
 
+MULTI_GROUP(redis-connection,
+    OCTSTR(id)
+    OCTSTR(host)
+    OCTSTR(port)
+    OCTSTR(password)
+    OCTSTR(database)
+    OCTSTR(max-connections)
+    OCTSTR(idle-timeout-secs)
+)
  
 SINGLE_GROUP(dlr-db,
     OCTSTR(id)

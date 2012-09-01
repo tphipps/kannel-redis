@@ -47,5 +47,11 @@ struct server_type *sqlbox_init_sql(Cfg *cfg)
         return res;
     }
 #endif
+#ifdef HAVE_REDIS
+    res = (struct server_type *)sqlbox_init_redis(cfg);
+    if (res) {
+        return res;
+    }
+#endif
     return res;
 }

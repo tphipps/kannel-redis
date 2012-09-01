@@ -52,7 +52,7 @@ am_sqlbox_OBJECTS = sqlbox.$(OBJEXT) sqlbox_mssql.$(OBJEXT) \
 	sqlbox_mysql.$(OBJEXT) sqlbox_pgsql.$(OBJEXT) \
 	sqlbox_sdb.$(OBJEXT) sqlbox_sqlite.$(OBJEXT) \
 	sqlbox_sqlite3.$(OBJEXT) sqlbox_oracle.$(OBJEXT) \
-	sqlbox_sql.$(OBJEXT)
+	sqlbox_redis.$(OBJEXT) sqlbox_sql.$(OBJEXT)
 sqlbox_OBJECTS = $(am_sqlbox_OBJECTS)
 sqlbox_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -115,6 +115,8 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 JADE = @JADE@
 JADETEX = @JADETEX@
+JSLIB_INCLUDE = @JSLIB_INCLUDE@
+JSLIB_LFLAGS = @JSLIB_LFLAGS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
@@ -205,8 +207,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-sqlbox_SOURCES = sqlbox.c sqlbox_mssql.c sqlbox_mysql.c sqlbox_pgsql.c sqlbox_sdb.c sqlbox_sqlite.c sqlbox_sqlite3.c sqlbox_oracle.c sqlbox_sql.c 
-EXTRA_DIST = sqlbox_mssql.h sqlbox_mysql.h sqlbox_pgsql.h sqlbox_sdb.h sqlbox_sqlite.h sqlbox_sqlite3.h sqlbox_oracle.h sqlbox_sql.h 
+sqlbox_SOURCES = sqlbox.c sqlbox_mssql.c sqlbox_mysql.c sqlbox_pgsql.c sqlbox_sdb.c sqlbox_sqlite.c sqlbox_sqlite3.c sqlbox_oracle.c sqlbox_redis.c sqlbox_sql.c 
+EXTRA_DIST = sqlbox_mssql.h sqlbox_mysql.h sqlbox_pgsql.h sqlbox_sdb.h sqlbox_sqlite.h sqlbox_sqlite3.h sqlbox_oracle.h sqlbox_redis.h sqlbox_sql.h 
 all: all-am
 
 .SUFFIXES:
@@ -299,6 +301,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlbox_mysql.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlbox_oracle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlbox_pgsql.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlbox_redis.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlbox_sdb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlbox_sql.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlbox_sqlite.Po@am__quote@

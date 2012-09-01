@@ -137,7 +137,7 @@ static void dlr_pgsql_shutdown()
 }
 
 
-static void dlr_pgsql_add(struct dlr_entry *entry)
+static void dlr_pgsql_add(struct dlr_entry *entry, int use_dst)
 {
     Octstr *sql;
 

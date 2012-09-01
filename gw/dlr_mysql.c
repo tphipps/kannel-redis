@@ -89,7 +89,7 @@ static void dlr_mysql_shutdown()
     dlr_db_fields_destroy(fields);
 }
 
-static void dlr_mysql_add(struct dlr_entry *entry)
+static void dlr_mysql_add(struct dlr_entry *entry, int use_dst)
 {
     Octstr *sql, *os_mask;
     DBPoolConn *pconn;

@@ -42,9 +42,9 @@ FOR EACH ROW BEGIN SELECT \"%S_seq\".nextval INTO :new.\"sql_id\" FROM DUAL; END
 #define SQLBOX_ORACLE_INSERT_QUERY "INSERT INTO \"%S\" (\"momt\", \"sender\", \"receiver\", \"udhdata\", \"msgdata\", \
 \"time\", \"smsc_id\", \"service\", \"account\", \"sms_type\", \"mclass\", \"mwi\", \"coding\", \"compress\", \"validity\", \
 \"deferred\", \"dlr_mask\", \"dlr_url\", \"pid\", \"alt_dcs\", \"rpi\", \"charset\", \"boxc_id\", \"binfo\", \"meta_data\" \
-) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20, :21, :22, :23, :24, :25)"
+) VALUES (%S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S, %S)"
 
-#define SQLBOX_ORACLE_DELETE_QUERY "DELETE FROM \"%S\" WHERE \"sql_id\" = :1"
+#define SQLBOX_ORACLE_DELETE_QUERY "DELETE FROM \"%S\" WHERE \"sql_id\" = %S"
 
 #endif /* HAVE_ORACLE || HAVE_SDB */
 
